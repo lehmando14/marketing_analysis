@@ -1,0 +1,2 @@
+3c) what is the retention rate if the period starts with 0 customers?
+5a) for average retention rate should we consider the first period with retention rate 1?
