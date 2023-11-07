@@ -12,12 +12,14 @@ def calculate_retention_rates_of_cohort_i(customer_df: pd.DataFrame, cohort: int
     return retention_rates
 
 def calculate_avg_retention_rate(retention_rates: dict) -> int:
-    retention_rates_l = list(retention_rates.values())
+    retention_rates_without_none = _remove_none_from_dict(retention_rates)
+    retention_rates_l = list(retention_rates_without_none.values())
     avg_retention_rate = sum(retention_rates_l) / len(retention_rates_l)
     return avg_retention_rate
     
 def plot_retention_rate_of_cohort_i(retention_rates: dict, cohort: int):
-    times, retention_rates = zip(*list(retention_rates.items()))
+    retention_rates_without_none = _remove_none_from_dict(retention_rates)
+    times, retention_rates = zip(*list(retention_rates_without_none.items()))
 
     plt.bar(times, retention_rates)
 
@@ -25,8 +27,6 @@ def plot_retention_rate_of_cohort_i(retention_rates: dict, cohort: int):
     plt.ylabel('Retention Rate')
     plt.title(f'Retention Rate of Cohort ({cohort}) Users in each Period')
     plt.show()
-
-
 
 #-------------------------------------helper functions----------------------------------------------------------------------------
 
@@ -51,7 +51,7 @@ def _calculate_retention_rates(observed_amount: dict, cohort: int) -> dict:
     '''Outputs retention rates of each period based in input observations per period'''
     retention_rates = dict()
 
-    retention_rates[cohort] = 1
+    retention_rates[cohort] = None
 
     for time in range(cohort + 1, 12):
 
@@ -62,6 +62,11 @@ def _calculate_retention_rates(observed_amount: dict, cohort: int) -> dict:
             )
 
         except ZeroDivisionError:
-            retention_rates[time] = 0
+            retention_rates[time] = None
 
     return retention_rates
+
+def _remove_none_from_dict(d: dict):
+    '''removes all none value items from the dictionary'''
+    filtered_dict = {key: value for key, value in d.items() if value is not None}
+    return filtered_dict

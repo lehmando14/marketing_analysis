@@ -58,4 +58,6 @@ def _get_avg_retention_rate_in_period(retention_rates: tuple):
             elements += 1
             sum += retention_rate
 
+    if elements == 0:
+        return None
     return sum / elements
