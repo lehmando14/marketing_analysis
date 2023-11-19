@@ -25,15 +25,15 @@ def calc_active_probs(retention_rates_per_month: list) -> list:
 
     return active_probabilities
 
-def calc_probs_of_surviving_exactly_i_months(active_probs: list, avg_retention_rates_per_month: list) -> list:
+def calc_probs_of_surviving_exactly_i_months(active_probs: list, retention_rates_per_month: list) -> list:
     '''currently only works for cohort 0 because of indexing'''
     probs_of_surviving_exactly_i_months = []
     for period in range(11):
-        if avg_retention_rates_per_month[period + 1] == None:
-            return probs_of_surviving_exactly_i_months
+        if retention_rates_per_month[period + 1] == None:
+            return probs_of_surviving_exactly_i_months + [active_probs[period]]
 
         probs_of_surviving_exactly_i_months.append(
-            active_probs[period] * (1 - avg_retention_rates_per_month[period + 1])
+            active_probs[period] * (1 - retention_rates_per_month[period + 1])
     )
                 
     return probs_of_surviving_exactly_i_months
