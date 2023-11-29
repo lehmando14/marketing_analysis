@@ -14,7 +14,7 @@ def calculate_exp_lifetime(avg_retention_rates_per_month: list) -> list:
 def calc_active_probs(retention_rates_per_month: list) -> list:
     '''currently only works for cohort 0 because of range 1, 12'''
     active_probabilities = [1]
-    for period in range(1, 12):
+    for period in range(1, len(retention_rates_per_month)):
 
         if retention_rates_per_month[period] == None: 
             return active_probabilities
